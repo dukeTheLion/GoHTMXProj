@@ -13,20 +13,30 @@ type Film struct {
 
 func main() {
 
+	films := map[string][]Film{
+		"Films": {
+			{Title: "A", Director: "I"},
+			{Title: "B", Director: "J"},
+			{Title: "C", Director: "K"},
+		},
+	}
+
 	h1 := func(w http.ResponseWriter, r *http.Request) {
-		tmplt := template.Must(template.ParseFiles("index.html"))
+		tmpl := template.Must(template.ParseFiles("index.html"))
+		tmpl.Execute(w, films)
+	}
 
-		films := map[string][]Film{
-			"Films": {
-				{Title: "A", Director: "I"},
-				{Title: "B", Director: "J"},
-				{Title: "C", Director: "K"},
-			},
-		}
+	h2 := func(w http.ResponseWriter, r *http.Request) {
+		title := r.PostFormValue("title")
+		director := r.PostFormValue("director")
 
-		tmplt.Execute(w, films)
+		films["Films"] = append(films["Films"], Film{Title: title, Director: director})
+
+		tmpl := template.Must(template.ParseFiles("index.html"))
+		tmpl.ExecuteTemplate(w, "film-list-elements", films)
 	}
 
 	http.HandleFunc("/", h1)
+	http.HandleFunc("/add-film/", h2)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
