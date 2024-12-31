@@ -1,12 +1,48 @@
 {{ define "pets_drop" }}
-<label for="pet-select">Choose a pet:</label>
 
-<select name="pets" id="pet-select">
-    <option value="">--Please choose an option--</option>
+<style>
+    label {
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
 
-    {{ range .Films}}
-    <option value="{{ .Value }}">{{ .Name }}</option>
-    {{ end }}
+    select {
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
 
-</select>
+    textarea {
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        padding: 10px;
+        line-height: 1.5;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    input {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<form hx-post="/test/">
+    <label for="pet-select">Choose a pet:</label><br>
+
+    <select name="pets" id="pet-select">
+        <option value="">--Please choose an option--</option>
+        {{ range .Pets}}
+        <option value="{{ .Value }}">{{ .Name }}</option>
+        {{ end }}
+    </select><br>
+
+    <label for="ta">Tell us your story:</label><br>
+    <textarea name="frm" id="ta"></textarea><br>
+
+    <input type="submit" value="Submit">
+</form>
 {{ end }}
