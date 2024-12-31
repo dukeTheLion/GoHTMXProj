@@ -1,0 +1,12 @@
+{{ define "pets_drop" }}
+<label for="pet-select">Choose a pet:</label>
+
+<select name="pets" id="pet-select">
+    <option value="">--Please choose an option--</option>
+
+    {{ range .Films}}
+    <option value="{{ .Value }}">{{ .Name }}</option>
+    {{ end }}
+
+</select>
+{{ end }}
